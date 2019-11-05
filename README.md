@@ -7,7 +7,6 @@ The RNA-seq data (GEO identifier: GSE64810)
 Still to add to pipeline
 * Use tximport to convert transcript to gene
 * DESeq2 to find DEGs
-* Network analysis in R
 * Create docker image for pipeline
 
 <pre>
