@@ -13,6 +13,20 @@ Still to add to pipeline
 [====================     ] 80%
 </pre>
 
+#### Install Nexflow
+Install `nextflow` using [their tutorial](https://www.nextflow.io/docs/latest/getstarted.html)
+
+#### Run NF_HD_RNAseq pipeline
+
+The easiest way is to install NF_HD_RNAseq is using nextflow's `pull` command:
+
+```
+nextflow pull jackkelly75/HF_HD_RNAseq
+```
+
+
+
+
 ### Workflow
 
 
