@@ -27,7 +27,19 @@ nextflow pull jackkelly75/HF_HD_RNAseq
 
 
 
-### Workflow
+### Processes
+
+*buildindex*\
+Uses salmon to build index
+(Need to have the human transcriptome downloaded already from this bash line "curl ftp://ftp.ensembl.org/pub/release-96/fasta/homo_sapiens/cdna/Homo_sapiens.GRCh38.cdna.all.fa.gz -o hsapien.fa.gz")
+Index is created using the human transcriptome downloaded and k-mer length of 31 (largest possible size, optimed for reads over ~75bp).
+
+
+trimfilter
+
+quant
+
+sortfiles
 
 
 *1_Qreports_filtering.nf*\
@@ -41,9 +53,8 @@ Creates the Sreports for the RNA-seq data before and after filtering.
 
 
 *3_quant.nf*\
-Uses salmon to build index and quantify the filtered RNA-seq results
-(Need to have the human transcriptome downloaded already from this bash line "curl ftp://ftp.ensembl.org/pub/release-96/fasta/homo_sapiens/cdna/Homo_sapiens.GRCh38.cdna.all.fa.gz -o hsapien.fa.gz")
-Index is created using the human transcriptome downloaded and k-mer length of 31 (largest possible size, optimed for reads over ~75bp). Salmon is run using:
+ and quantify the filtered RNA-seq results
+ Salmon is run using:
 <pre>
 salmon quant -i $index -l A \
             -1 ${reads[0]} -2 ${reads[1]} \
