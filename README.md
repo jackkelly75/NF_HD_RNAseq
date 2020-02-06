@@ -5,7 +5,7 @@ RNA sequencing analysis pipeline for HD data reproducibility (work in progress)
 The RNA-seq data (GEO identifier: GSE64810)
 
 Still to add to pipeline
-* Create docker image for pipeline
+* Add data to github
 
 <pre>
 [=======================  ] 90%
@@ -15,15 +15,14 @@ Still to add to pipeline
 Install `nextflow` using [their tutorial](https://www.nextflow.io/docs/latest/getstarted.html)
 
 #### Run NF_HD_RNAseq pipeline
-
+Check if java is installed using `java --version`. \
+Can install java using `sudo apt install default-jre`. \
+`wget -qO- https://get.nextflow.io | bash` \
 The easiest way is to install NF_HD_RNAseq is using nextflow's `pull` command:
 
 ```
-nextflow pull jackkelly75/HF_HD_RNAseq
+nextflow run jackkelly75/HF_HD_RNAseq
 ```
-
-
-
 
 ### Processes
 
