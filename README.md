@@ -11,6 +11,8 @@ Still to add to pipeline
 [=======================  ] 90%
 </pre>
 
+-change shoulder method used
+
 #### Install Nexflow
 Install `nextflow` using [their tutorial](https://www.nextflow.io/docs/latest/getstarted.html)
 
