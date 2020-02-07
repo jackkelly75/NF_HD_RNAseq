@@ -1,6 +1,6 @@
 
 
-sudo docker build -t Dockerfile .
+sudo docker build -t "xyz:Dockerfile" .
 
 
 #once docker image is created
