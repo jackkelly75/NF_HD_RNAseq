@@ -32,7 +32,7 @@ process buildIndex {
 
     script:
     """
-    salmon index --threads 6 -t $transcriptome -i index -k 31
+    salmon index --threads 2 -t $transcriptome -i index -k 31
     """
 }  
 
