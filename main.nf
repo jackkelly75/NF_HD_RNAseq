@@ -72,7 +72,7 @@ process quant {
 
     script:
     """
-    salmon quant -l A -i $index -1 ${reads[0]} -2 ${reads[1]} -o $pair_id --validateMappings --maxMMPExtension 7 --seqBias --gcBias 
+    salmon quant -l A -i $index -1 ${reads[0]} -2 ${reads[1]} -o $pair_id --validateMappings --seqBias --gcBias 
     """
 }
 
