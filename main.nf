@@ -6,7 +6,7 @@ params.outdir = "results1"
 
 
 log.info """\
- N F - H D - R N A S E Q  P I P E L I N E
+ N F - H D - R N A S E Q  P I P E L I N E - R E C E N T
  ===================================
  reads        : ${params.reads}
  outdir       : ${params.outdir}
