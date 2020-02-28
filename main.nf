@@ -2,7 +2,7 @@
 
 params.transcriptome = "$baseDir/data/hsapien.fa.gz"
 params.reads = "$baseDir/data/*_{1,2}.fastq.gz"
-params.outdir = "results"
+params.outdir = "results1"
 
 
 log.info """\
