@@ -37,8 +37,8 @@ process buildIndex {
 }  
 
 process trimFilter {
-    memory '12 GB'
-    cpus 2
+    memory '18 GB'
+    cpus 5
     tag "$trimFilter"
     publishDir "1_FastQPuri"
 
@@ -58,8 +58,8 @@ process trimFilter {
 
 
 process quant {
-    memory '12 GB'
-    cpus 2
+    memory '18 GB'
+    cpus 5
     tag "$pair_id"
     publishDir '2_quant'
 
@@ -72,7 +72,7 @@ process quant {
 
     script:
     """
-    salmon quant -l A -i $index -1 ${reads[0]} -2 ${reads[1]} -o $pair_id --validateMappings --maxMMPExtension 7 --seqBias --gcBias 
+    salmon quant -l A -i $index -1 ${reads[0]} -2 ${reads[1]} -o $pair_id --validateMappings --seqBias --gcBias 
     """
 }
 
