@@ -71,7 +71,7 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD5
 RUN add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/'
 RUN apt update
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y r-base pandoc vim libxml2-dev libssl-dev
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y r-base pandoc vim libxml2-dev libssl-dev clang
 
 
 RUN Rscript -e 'install.packages(c("rmarkdown", "pheatmap", "DMwR", "stringr"), repos="https://cran.ma.imperial.ac.uk/")'
