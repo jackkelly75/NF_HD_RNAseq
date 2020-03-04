@@ -1,5 +1,5 @@
 # NF_HD_RNAseq
-RNA sequencing analysis pipeline for HD data reproducibility (work in progress) 
+RNA sequencing analysis pipeline for HD data reproducibility
 
 ### Introduction
 The RNA-seq data (GEO identifier: GSE64810)
