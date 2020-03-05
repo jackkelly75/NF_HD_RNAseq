@@ -113,10 +113,10 @@ process sort_files {
     png("elbow_plot1.png", height = 800, width = 1000)
     temp_na <- na.omit(temp)
     wss <- (nrow(temp_na)-1)*sum(apply(temp_na,2,var))
-    for (i in 2:15) wss[i] <- sum(kmeans(temp_na, centers=i)[[4]])
-    plot(1:15, wss, type = "b", xlab="Number of Clusters", ylab="Within groups sum of squares")
+    for (i in 2:4) wss[i] <- sum(kmeans(temp_na, centers=i)[[4]])
+    plot(1:4, wss, type = "b", xlab="Number of Clusters", ylab="Within groups sum of squares")
     dev.off()
-    knnOutput <- knnImputation(temp, k = 5)
+    knnOutput <- knnImputation(temp, k = 2)
     sampleTable[,3] <- round(knnOutput[,3], digits = 2)
     sampleTable[,1] <- factor(sampleTable[,1])
 
@@ -149,7 +149,7 @@ process sort_files {
     
     MAD <- vector(mode="numeric", length=0)
     for( i in 1:nrow(txi[[2]])){                
-      MAD[i] <- mad(txi[[2]][i,1:69])
+      MAD[i] <- mad(txi[[2]][i,1:6])
     }
     ExprsMAD <- cbind(MAD, txi[[2]])
     ExprsMAD <- as.data.frame(ExprsMAD)
