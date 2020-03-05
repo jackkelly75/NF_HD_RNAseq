@@ -2,11 +2,11 @@
 
 params.transcriptome = "$baseDir/data/hsapien.fa.gz"
 params.reads = "$baseDir/data/*_{1,2}.fastq.gz"
-params.outdir = "results1"
+params.outdir = "results"
 
 
 log.info """\
- N F - H D - R N A S E Q  P I P E L I N E - R E C E N T
+ N F - H D - R N A S E Q  P I P E L I N E
  ===================================
  reads        : ${params.reads}
  outdir       : ${params.outdir}
@@ -72,7 +72,7 @@ process quant {
 
     script:
     """
-    salmon quant -l A -i $index -1 ${reads[0]} -2 ${reads[1]} -o $pair_id --validateMappings --seqBias --gcBias 
+    salmon quant -l A -i $index -1 ${reads[0]} -2 ${reads[1]} -o $pair_id --validateMappings --seqBias --gcBias --posBias
     """
 }
 
