@@ -11,7 +11,6 @@ Still to add to pipeline
 [=======================  ] 90%
 </pre>
 
--change shoulder method used
 
 #### Install Nexflow
 Install `nextflow` using [their tutorial](https://www.nextflow.io/docs/latest/getstarted.html)
@@ -50,9 +49,9 @@ salmon quant -i $index -l A \
             -1 ${reads[0]} -2 ${reads[1]} \
             --seqBias  \  #learn and correct for sequence-specific biases in the input data
             --gcBias \  #learn and correct for fragment-level GC biases in the input data. Does not impact on results if GC bias is not present, only marginally increases run time
-            --maxMMPExtension 7 \  # limits the length that a mappable prefix of a fragment may be extended before another search along the fragment is started. Smaller values improve the sensitivity but increase run time.
+            --posBias \
             --validateMappings\  #selective alignment that is more sensitive
-            --threads $task.cpus  -o $pair_id
+            -o $pair_id
 </pre>
 
 
@@ -65,8 +64,6 @@ to remove the .*N* at end of the annotation so can be annotated to gene symbol
 change ensembl annotation to symbol (any duplicate symbol genes, keep only the one with the highest MAD)
 convert transcript to gene controlling for pmi and rin
 differential expression using DESeq2 (IHW correction)
-
-
 
 
 
