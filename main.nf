@@ -32,7 +32,7 @@ process buildIndex {
 
     script:
     """
-    salmon index --threads 2 -t $transcriptome -i index -k 31
+    salmon index --threads 6 -t $transcriptome -i index -k 31
     """
 }  
 
@@ -65,7 +65,7 @@ process quant {
 
     input:
     file index from transcriptome_index
-    tuple pair_id, file(reads) from goodfiles
+    set pair_id, file(reads) from goodfiles
 
     output:
     file(pair_id) into quant_ch
