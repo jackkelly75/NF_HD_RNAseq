@@ -12,35 +12,20 @@ MAINTAINER Jack Kelly <jackkelly75@gmail.com>
 # salmon binary will be installed in /home/salmon/bin/salmon
 
 
+ENV PACKAGES git gcc make g++ libboost-all-dev liblzma-dev libbz2-dev \
+    ca-certificates zlib1g-dev libcurl4-openssl-dev curl unzip autoconf apt-transport-https ca-certificates gnupg software-properties-common wget
+ENV SALMON_VERSION 1.1.0
+
+
+
 WORKDIR /home
 
 
-### salmon
+RUN apt-get update && \
+    apt remove -y libcurl4 && \
+    apt-get install -y --no-install-recommends ${PACKAGES} && \
+    apt-get clean
 
-RUN apt-get update
-RUN apt remove -y libcurl4
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-	apt-utils \
-	git \
-	gcc \
-	make \
-	g++ \
-	libboost-all-dev \
-	liblzma-dev \
-	libbz2-dev \
-	ca-certificates \
-	zlib1g-dev \
-	libcurl4-openssl-dev \
-	curl \
-	unzip \
-	autoconf \
-	apt-transport-https \
-	ca-certificates \
-	gnupg \
-	software-properties-common \
-	wget
-
-RUN apt-get clean
 
 RUN wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | apt-key add -
 
@@ -54,11 +39,14 @@ RUN apt-get install kitware-archive-keyring
 
 RUN apt-get install -y cmake
 
-RUN curl -k -L https://github.com/COMBINE-lab/salmon/releases/download/v1.1.0/salmon-1.1.0_linux_x86_64.tar.gz -o salmon-v1.1.0.tar.gz
+RUN curl -k -L https://github.com/COMBINE-lab/salmon/archive/v${SALMON_VERSION}.tar.gz -o salmon-v${SALMON_VERSION}.tar.gz && \
+    tar xzf salmon-v${SALMON_VERSION}.tar.gz && \
+    cd salmon-${SALMON_VERSION} && \
+    mkdir build && \
+    cd build && \
+    cmake .. -DCMAKE_INSTALL_PREFIX=/usr/local && make && make install
 
-RUN tar xzf salmon-v1.1.0.tar.gz
-
-ENV PATH /home/salmon-latest_linux_x86_64/bin:${PATH}
+ENV PATH /home/salmon-${SALMON_VERSION}/bin:${PATH}
 ENV LD_LIBRARY_PATH "/usr/local/lib:${LD_LIBRARY_PATH}"
 
 RUN echo "export PATH=$PATH" > /etc/environment
