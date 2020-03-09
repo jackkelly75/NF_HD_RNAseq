@@ -110,7 +110,7 @@ process sort_files {
     
     setwd("$baseDir")    
     set.seed(420)
-    png("elbow_plot1.png", height = 800, width = 1000)
+    png("elbow_plot.png", height = 800, width = 1000)
     temp_na <- na.omit(temp)
     wss <- (nrow(temp_na)-1)*sum(apply(temp_na,2,var))
     for (i in 2:15) wss[i] <- sum(kmeans(temp_na, centers=i)[[4]])
