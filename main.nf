@@ -1,5 +1,6 @@
 #!/usr/bin/env nextflow
 
+
 params.transcriptome = "$baseDir/data/hsapien.fa.gz"
 params.reads = "$baseDir/data/*_{1,2}.fastq.gz"
 params.outdir = "results"
@@ -36,6 +37,7 @@ process buildIndex {
     """
 }  
 
+
 process trimFilter {
     memory '8 GB'
     cpus 2
@@ -45,16 +47,14 @@ process trimFilter {
     input:
     set pair_id, file(reads) from read_pairs_ch
 
-
     output:
-    set pair_id, file("*{1,2}_good.fq.gz") into goodfiles
+    set val(pair_id), file("*_{1,2}_good.fq.gz") into goodfiles
 
     script:
     """
-    trimFilterPE -f ${reads[0]}:${reads[1]}  -l 101 --trimQ ENDSFRAC --trimN ENDS -m 31 -o $pair_id
+    trimFilterPE -f ${reads[0]}:${reads[1]} -l 101 --trimQ ENDSFRAC --trimN ENDS -m 31 -o $pair_id
     """
 }
-
 
 
 process quant {
@@ -63,16 +63,16 @@ process quant {
     tag "$pair_id"
     publishDir '2_quant'
 
-    input:
+    input:    
     file index from transcriptome_index
-    set pair_id, file(reads) from goodfiles
+    set val(lane), file(reads) from goodfiles
 
     output:
     file(pair_id) into quant_ch
 
     script:
     """
-    salmon quant -l A -i $index -1 ${reads[0]} -2 ${reads[1]} -o $pair_id --validateMappings --seqBias --gcBias --posBias
+    salmon quant -l A -i $index -1 ${reads[0]} -2 ${reads[1]} -o $lane --validateMappings --seqBias --gcBias --posBias
     """
 }
 
