@@ -69,7 +69,7 @@ process quant {
     set sample, file(reads) from goodfiles
 
     output:
-    file(pair_id) into quant_ch
+    file(sample) into quant_ch
 
     script:
     """
