@@ -67,6 +67,7 @@ process quant {
     input:    
     file index from transcriptome_index
     set sample, file(reads) from goodfiles
+    file("results_list") from goodfiles.collect()
 
     output:
     file(pair_id) into quant_ch
