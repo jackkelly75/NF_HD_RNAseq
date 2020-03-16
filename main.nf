@@ -7,7 +7,7 @@ params.outdir = "results"
 
 
 log.info """\
- N F - H D - R N A S E Q  P I P E L I N E
+ N F - H D - R N A S E Q  P I P E L I N E NEW
  ===================================
  reads        : ${params.reads}
  outdir       : ${params.outdir}
@@ -48,7 +48,7 @@ process trimFilter {
     set pair_id, file(reads) from read_pairs_ch
 
     output:
-    set pair_id, file('*1_good.fq.gz'), file('*2_good.fq.gz') into goodfiles
+    set val(pair_id), file('*1_good.fq.gz'), file('*2_good.fq.gz') into goodfiles
     
 
     script:
