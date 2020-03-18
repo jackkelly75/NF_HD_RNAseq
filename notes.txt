@@ -16,3 +16,8 @@ sudo docker run -it jackkelly75/nf_hd_rnaseq
 #before the : specify where on PC the folder you want in the docker is, after it where in the docker it should be placed
 sudo docker run -v /media/mynewdrive/NextFlow/data2:/home/data -it jackkelly75/nf_hd_rnaseq
 
+
+./nextflow pull jackkelly75/NF_HD_RNAseq^C
+
+sudo ./nextflow run jackkelly75/NF_HD_RNAseq --reads 'data2/*_{1,2}.fastq.gz' --transcriptome 'data/hsapien.fa.gz'
+
