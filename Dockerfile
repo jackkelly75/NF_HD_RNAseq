@@ -12,11 +12,11 @@ MAINTAINER Jack Kelly <jackkelly75@gmail.com>
 # salmon binary will be installed in /home/salmon/bin/salmon
 
 
-ENV PACKAGES git gcc make g++ libboost-all-dev liblzma-dev libbz2-dev \
-    ca-certificates zlib1g-dev libcurl4-openssl-dev curl unzip autoconf apt-transport-https ca-certificates gnupg software-properties-common wget
+ENV PACKAGES git gcc make g++ libtbb-dev libboost-all-dev liblzma-dev libbz2-dev \
+    ca-certificates zlib1g-dev libcurl4-openssl-dev curl unzip autoconf \
+    apt-transport-https ca-certificates gnupg software-properties-common \
+    libz-dev wget apt-utils
 ENV SALMON_VERSION 1.1.0
-
-
 
 WORKDIR /home
 
@@ -30,23 +30,35 @@ RUN apt-get update && \
 RUN wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | apt-key add -
 
 RUN apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic main'
-
 RUN apt-get update
 
 RUN apt-key --keyring /etc/apt/trusted.gpg del C1F34CDD40CD72DA
 
 RUN apt-get install kitware-archive-keyring
 
-RUN apt-get install -y cmake
 
-RUN curl -k -L https://github.com/COMBINE-lab/salmon/archive/v${SALMON_VERSION}.tar.gz -o salmon-v${SALMON_VERSION}.tar.gz && \
-    tar xzf salmon-v${SALMON_VERSION}.tar.gz && \
-    cd salmon-${SALMON_VERSION} && \
-    mkdir build && \
-    cd build && \
-    cmake .. -DCMAKE_INSTALL_PREFIX=/usr/local && make && make install
 
-ENV PATH /home/salmon-${SALMON_VERSION}/bin:${PATH}
+RUN apt-get update
+
+RUN wget https://github.com/Kitware/CMake/releases/download/v3.15.5/cmake-3.15.5-Linux-x86_64.sh \
+      -q -O /tmp/cmake-install.sh \
+      && chmod +x /tmp/cmake-install.sh \
+      && mkdir /usr/bin/cmake \
+      && /tmp/cmake-install.sh --skip-license --prefix=/usr/bin/cmake \
+      && rm /tmp/cmake-install.sh
+
+ENV PATH="/usr/bin/cmake/bin:${PATH}"
+
+
+RUN curl -k -L https://github.com/COMBINE-lab/salmon/releases/download/v1.1.0/salmon-1.1.0_linux_x86_64.tar.gz -o salmon-1.1.0_linux_x86_64.tar.gz && \
+    tar xzvf salmon-1.1.0_linux_x86_64.tar.gz
+
+#    mkdir build && \
+#    cd build && \
+#    cmake .. -DCMAKE_INSTALL_PREFIX=/usr/local && make && make install
+
+
+ENV PATH /home/salmon-latest_linux_x86_64/bin:${PATH}
 ENV LD_LIBRARY_PATH "/usr/local/lib:${LD_LIBRARY_PATH}"
 
 RUN echo "export PATH=$PATH" > /etc/environment
