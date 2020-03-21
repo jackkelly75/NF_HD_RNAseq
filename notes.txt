@@ -22,5 +22,5 @@ sudo docker run -v /media/mynewdrive/NextFlow/data2:/home/data -it jackkelly75/n
 
 ./nextflow pull jackkelly75/NF_HD_RNAseq
 
-sudo ./nextflow run jackkelly75/NF_HD_RNAseq --reads 'data2/*_{1,2}.fastq.gz' --transcriptome 'data/hsapien.fa.gz'
+sudo ./nextflow run jackkelly75/NF_HD_RNAseq --reads 'data2/*_{1,2}.fastq.gz' --transcriptome 'data2/hsapien.fa.gz'
 
