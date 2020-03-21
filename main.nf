@@ -37,8 +37,6 @@ process buildIndex {
 }  
 
 process trimFilter {
-    memory '8 GB'
-    cpus 2
     tag "$trimFilter"
     publishDir "1_FastQPuri"
 
@@ -58,9 +56,7 @@ process trimFilter {
 
 
 process quant {
-    memory '8 GB'
-    cpus 2
-    tag "$pair_id"
+     tag "$pair_id"
     publishDir '2_quant'
 
     input:
