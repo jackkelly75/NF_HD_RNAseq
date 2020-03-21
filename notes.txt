@@ -7,6 +7,8 @@ sudo docker build -t "xyz:Dockerfile" .
 #login to docker
 sudo docker login --username=jackkelly75
 sudo docker images
+#remove all docker images
+#docker system prune -a --volumes
 #will show the dockers created. Inset IMAGE ID into image_id
 sudo docker tag <image_id> jackkelly75/nf_hd_rnaseq:latest
 sudo docker push jackkelly75/nf_hd_rnaseq
