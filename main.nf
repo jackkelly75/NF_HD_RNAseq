@@ -46,6 +46,7 @@ process buildIndex {
 
     input:
     file transcriptome from transcriptome_file
+    file temp_names from goodfiles.collect()
 
     output:
     file 'index' into transcriptome_index
@@ -65,14 +66,14 @@ process quant {
     input:    
     file transcriptome from transcriptome_file
     file index from transcriptome_index
-    set pair_id, file(reads) from goodfiles
+    set filtered_reads, file(reads) from goodfiles
 
     output:
-    file(pair_id) into quant_ch
+    file(filtered_reads) into quant_ch
 
     script:
     """
-    salmon quant -l A --threads $task.cpus -i $index -1 ${reads[0]} -2 ${reads[1]} -o $pair_id --validateMappings --seqBias --gcBias
+    salmon quant -l A --threads $task.cpus -i $index -1 ${reads[0]} -2 ${reads[1]} -o $filtered_reads --validateMappings --seqBias --gcBias
     """
 }
 
