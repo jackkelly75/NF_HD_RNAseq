@@ -22,7 +22,6 @@ Channel
 
 
 process trimFilter {
-    cpus 1
     
     tag "$trimFilter"
     publishDir "1_FastQPuri"
@@ -32,6 +31,7 @@ process trimFilter {
 
 
     output:
+    file "*.bin" into fastqbinfiles
     set pair_id, file("*{1,2}_good.fq.gz") into goodfiles
 
     script:
@@ -58,12 +58,12 @@ process buildIndex {
 
 
 process quant {
-    cpus 1
     
     tag "$pair_id"
     publishDir '2_quant'
 
-    input:
+    input:    
+    file transcriptome from transcriptome_file
     file index from transcriptome_index
     set pair_id, file(reads) from goodfiles
 
@@ -72,7 +72,7 @@ process quant {
 
     script:
     """
-    salmon quant -l A -i $index -1 ${reads[0]} -2 ${reads[1]} -o $pair_id --validateMappings --seqBias --gcBias
+    salmon quant -l A --threads $task.cpus -i $index -1 ${reads[0]} -2 ${reads[1]} -o $pair_id --validateMappings --seqBias --gcBias
     """
 }
 
