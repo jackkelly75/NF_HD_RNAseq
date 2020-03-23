@@ -31,7 +31,6 @@ process trimFilter {
 
 
     output:
-    file "*.bin" into fastqbinfiles
     set pair_id, file("*{1,2}_good.fq.gz") into goodfiles
 
     script:
@@ -63,16 +62,15 @@ process quant {
     publishDir '2_quant'
 
     input:    
-    file transcriptome from transcriptome_file
     file index from transcriptome_index
-    set filtered_reads, file(reads) from goodfiles
+    set pair_id, file(reads) from goodfiles
 
     output:
-    file(filtered_reads) into quant_ch
+    file(pair_id) into quant_ch
 
     script:
     """
-    salmon quant -l A --threads $task.cpus -i $index -1 ${reads[0]} -2 ${reads[1]} -o $filtered_reads --validateMappings --seqBias --gcBias
+    salmon quant -l A --threads $task.cpus -i $index -1 ${reads[0]} -2 ${reads[1]} -o $pair_id --validateMappings --seqBias --gcBias
     """
 }
 
