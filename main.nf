@@ -46,8 +46,6 @@ process buildIndex {
 
     input:
     file transcriptome from transcriptome_file
-    set filtered_reads, file(reads) from goodfiles
-
 
     output:
     file 'index' into transcriptome_index
