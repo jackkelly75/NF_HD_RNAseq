@@ -22,6 +22,8 @@ Channel
 
 
 process trimFilter {
+    cpus 1
+    
     tag "$trimFilter"
     publishDir "1_FastQPuri"
 
@@ -56,7 +58,9 @@ process buildIndex {
 
 
 process quant {
-     tag "$pair_id"
+    cpus 1
+    
+    tag "$pair_id"
     publishDir '2_quant'
 
     input:
