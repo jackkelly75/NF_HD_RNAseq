@@ -46,7 +46,7 @@ process buildIndex {
 
     input:
     file transcriptome from transcriptome_file
-    file temp_names from goodfiles.collect()
+
 
     output:
     file 'index' into transcriptome_index
