@@ -62,7 +62,7 @@ RUN apt update
 
 RUN Rscript -e 'install.packages(c("rmarkdown", "pheatmap", "DMwR", "stringr"), repos="https://cran.ma.imperial.ac.uk/")'
 
-#RUN Rscript -e 'if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")' -e 'BiocManager::install(c("RCurl", "DESeq2", "openssl", "biomaRt", "EnsDb.Hsapiens.v86", "IHW", "tximport"))'
+RUN Rscript -e 'if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")' -e 'BiocManager::install(c("RCurl", "DESeq2", "openssl", "biomaRt", "EnsDb.Hsapiens.v86", "IHW", "tximport"))'
 
 RUN curl -k -L https://github.com/jengelmann/FastqPuri/archive/v1.0.6.tar.gz -o FastqPuri-1.0.6.tar.gz && \
    tar xzvf FastqPuri-1.0.6.tar.gz && \
