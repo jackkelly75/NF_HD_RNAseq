@@ -23,7 +23,7 @@ The easiest way is to install NF_HD_RNAseq is using nextflow's `pull` command:
 
 ```
 sudo ./nextflow pull jackkelly75/NF_HD_RNAseq
-sudo ./nextflow run jackkelly75/NF_HD_RNAseq --reads '/data/*_{1,2}.fastq.gz' --transcriptome '/data/hsapien.fa.gz'
+sudo ./nextflow run jackkelly75/NF_HD_RNAseq --reads 'data/*_{1,2}.fastq.gz' --transcriptome 'data/hsapien.fa.gz'
 ```
 with --reads set to where reads are stored on your system, and command run in working directory that contains nextflow (if not in PATH)
 
