@@ -16,7 +16,7 @@ ENV PACKAGES git build-essential libtbb-dev libboost-all-dev liblzma-dev libbz2-
     ca-certificates zlib1g-dev libcurl4-openssl-dev curl unzip autoconf \
     apt-transport-https ca-certificates gnupg software-properties-common \
     libz-dev wget apt-utils \
-    clang r-base pandoc vim libxml2-dev libssl-dev 
+    clang pandoc vim libxml2-dev libssl-dev
 
 ENV SALMON_VERSION 1.1.0
 
@@ -27,6 +27,14 @@ RUN apt-get update && \
     apt remove -y libcurl4 && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ${PACKAGES} && \
     apt-get clean
+
+RUN apt install -y default-jre
+RUN apt install -y openjdk-11-jre-headless
+RUN apt install -y openjdk-8-jre-headless
+#RUN apt install -y openjdk-9-jre-headless
+RUN apt install -y default-jre
+
+RUN  apt install -y --no-install-recommends
 
 
 RUN wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | apt-key add -
@@ -59,10 +67,12 @@ RUN apt install -y apt-transport-https software-properties-common
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
 RUN add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/'
 RUN apt update
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends gfortran r-base libpng-dev libjpeg-dev liblapack-dev libblas-dev
 
-RUN Rscript -e 'install.packages(c("rmarkdown", "pheatmap", "DMwR", "stringr"), repos="https://cran.ma.imperial.ac.uk/")'
-
+RUN Rscript -e 'install.packages(c("rmarkdown", "pheatmap", "DMwR", "stringr", "nlme"), repos="https://cran.ma.imperial.ac.uk/")'
+RUN Rscript -e 'update.packages(ask = FALSE)'
 RUN Rscript -e 'if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")' -e 'BiocManager::install(c("RCurl", "DESeq2", "openssl", "biomaRt", "EnsDb.Hsapiens.v86", "IHW", "tximport"))'
+
 
 RUN curl -k -L https://github.com/jengelmann/FastqPuri/archive/v1.0.6.tar.gz -o FastqPuri-1.0.6.tar.gz && \
    tar xzvf FastqPuri-1.0.6.tar.gz && \
