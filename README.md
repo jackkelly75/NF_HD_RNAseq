@@ -12,6 +12,10 @@ Still to add to pipeline
 </pre>
 
 
+#### Install docker
+This link describes it well:
+https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-18-04
+
 #### Install Nexflow
 Install `nextflow` using [their tutorial](https://www.nextflow.io/docs/latest/getstarted.html)
 
