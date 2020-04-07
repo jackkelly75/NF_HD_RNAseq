@@ -44,7 +44,7 @@ process trimFilter {
     set pair_id, file(reads) from read_pairs_ch
 
     output:
-    set pair_id, file("*{1,2}_good.fq.gz") into goodfiles
+    set pair_id, file('*_1.fastq'), file('*_2.fastq') into goodfiles
 
     script:
     """
@@ -59,7 +59,7 @@ process quant {
 
     input:    
     file index from transcriptome_index
-    set pair_id, file("*{1,2}_good.fq.gz") from goodfiles
+    set pair_id, file(reads) from goodfiles
 
     output:
     file(pair_id) into quant_ch
