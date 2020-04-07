@@ -6,7 +6,7 @@ params.outdir = "results"
 
 
 log.info """\
- N F - H D - R N A S E Q  P I P E L I N E NEW
+ N F - H D - R N A S E Q  P I P E L I N E
  ===================================
  reads        : ${params.reads}
  outdir       : ${params.outdir}
@@ -32,6 +32,7 @@ process trimFilter {
 
     output:
     set pair_id, file("*{1,2}_good.fq.gz") into goodfiles
+    file(pair_id) into temptrial
 
     script:
     """
@@ -64,7 +65,7 @@ process quant {
     input:    
     file index from transcriptome_index
     set pair_id, file(reads) from goodfiles
-    file(reads) from goodfiles.collect()
+    file(info) from temptrial.collect()
 
     output:
     file(pair_id) into quant_ch
