@@ -20,27 +20,6 @@ Channel
     .ifEmpty { error "Cannot find any reads matching: ${params.reads}" }
     .into { read_pairs_ch; read_pairs2_ch }
 
-
-process trimFilter {
-    
-    tag "$trimFilter"
-    publishDir "1_FastQPuri"
-
-    input:
-    set pair_id, file(reads) from read_pairs_ch
-
-
-    output:
-    set pair_id, file("*{1,2}_good.fq.gz") into goodfiles
-    file(pair_id) into temptrial
-
-    script:
-    """
-    trimFilterPE -f ${reads[0]}:${reads[1]}  -l 101 --trimQ ENDSFRAC --trimN ENDS -m 31 -o $pair_id
-    """
-}
-
-
 process buildIndex {
     tag "$transcriptome.simpleName"
 
@@ -56,6 +35,22 @@ process buildIndex {
     """
 }  
 
+process trimFilter {
+    
+    tag "$trimFilter"
+    publishDir "1_FastQPuri"
+
+    input:
+    set pair_id, file(reads) from read_pairs_ch
+
+    output:
+    file(pair_id) into goodfiles
+
+    script:
+    """
+    trimFilterPE -f ${reads[0]}:${reads[1]}  -l 101 --trimQ ENDSFRAC --trimN ENDS -m 31 -o $pair_id
+    """
+}
 
 process quant {
     
@@ -64,8 +59,7 @@ process quant {
 
     input:    
     file index from transcriptome_index
-    set pair_id, file(reads) from goodfiles
-    file(info) from temptrial.collect()
+    set pair_id, file("*{1,2}_good.fq.gz") from goodfiles
 
     output:
     file(pair_id) into quant_ch
