@@ -44,7 +44,7 @@ process trimFilter {
     set pair_id, file(reads) from read_pairs_ch
 
     output:
-    set pair_id, file('*_1.fastq'), file('*_2.fastq') into goodfiles
+    set pair_id, file('*1_good.fq.gz'), file('*2_good.fq.gz') into goodfiles
 
     script:
     """
