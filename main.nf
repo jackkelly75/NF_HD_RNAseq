@@ -59,7 +59,7 @@ process quant {
 
     input:    
     file index from transcriptome_index
-    set pair_id, file('*1_good.fq.gz'), file('*2_good.fq.gz') from goodfiles
+    set pair_id, file(reads) from goodfiles
 
     output:
     file(pair_id) into quant_ch
