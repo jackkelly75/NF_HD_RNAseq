@@ -26,6 +26,9 @@ sudo docker run -v /media/mynewdrive/NextFlow/data2:/home/data -it jackkelly75/n
 
 sudo ./nextflow run jackkelly75/NF_HD_RNAseq --reads 'data2/*_{1,2}.fastq.gz' --transcriptome 'data2/hsapien.fa.gz'
 
+#in temp folder of hard drive 2
+sudo ./nextflow run jackkelly75/NF_HD_RNAseq --reads '/media/j/Home_HardDrive_1/PhD work/3.HD work/Brain/BA9/data/*_{1,2}.fastq.gz' --transcriptome 'data/hsapien.fa.gz' -resume
+
 
 sudo ./nextflow pull jackkelly75/NF_HD_RNAseq
 sudo ./nextflow run jackkelly75/NF_HD_RNAseq --reads '/media/j/Home_HardDrive_1/PhD work/3.HD work/Brain/BA9/data/*_{1,2}.fastq.gz' --transcriptome 'data/hsapien.fa.gz'
