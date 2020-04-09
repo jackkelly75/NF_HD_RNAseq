@@ -48,6 +48,7 @@ process trimFilter {
 
     script:
     """
+    echo $pair_id
     trimFilterPE -f ${reads[0]}:${reads[1]}  -l 101 --trimQ ENDSFRAC --trimN ENDS -m 31 -o $pair_id
     """
 }
@@ -66,7 +67,7 @@ process quant {
 
     script:
     """
-    salmon quant -l A --threads $task.cpus -i $index -1 ${reads[1]} -2 ${reads[2]} -o $pair_id --validateMappings --seqBias --gcBias
+    salmon quant -l A --threads $task.cpus -i $index -1 ${reads[0]} -2 ${reads[0]} -o $pair_id --validateMappings --seqBias --gcBias
     """
 }
 
