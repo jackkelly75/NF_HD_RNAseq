@@ -44,7 +44,8 @@ process trimFilter {
     set pair_id, file(reads) from read_pairs_ch
 
     output:
-    set val(pair_id), file('*_{1,2}.fastq') into goodfiles
+    set val(pair_id), file('*{1,2}_good.fq.gz') into goodfiles
+    set val(temp), file('*_NNNN.fq.gz') into tempfiles    
 
     script:
     """
@@ -56,7 +57,7 @@ process trimFilter {
 process temp {
 
     input:
-    file("temp_results") from goodfiles.collect()
+    file("temp_results") from tempfiles.collect()
 
     script:
     """
