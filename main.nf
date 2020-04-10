@@ -56,7 +56,7 @@ process trimFilter {
 process temp {
 
     input:
-    file("temp_results") from goodfiles.collect(
+    file("temp_results") from goodfiles.collect()
 
     script:
     """
