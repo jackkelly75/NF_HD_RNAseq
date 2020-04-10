@@ -3,6 +3,7 @@
 params.transcriptome = "$baseDir/data/hsapien.fa.gz"
 params.reads = "$baseDir/data/*_{1,2}.fastq.gz"
 params.outdir = "results"
+ASSEMBLYComplete = 'false'
 
 
 log.info """\
@@ -44,11 +45,12 @@ process trimFilter {
     set pair_id, file(reads) from read_pairs_ch
 
     output:
-    file("*good.fq.gz") into goodfiles
+    set val(pair_id), file('*_{1,2}.fastq') into goodfiles
 
     script:
     """
     trimFilterPE -f ${reads[0]}:${reads[1]}  -l 101 --trimQ ENDSFRAC --trimN ENDS -m 31 -o $pair_id
+    MAPPINGComplete = 'true'
     """
 }
 
@@ -56,10 +58,13 @@ process quant {
     
     tag "$pair_id"
     publishDir '2_quant'
+    
+    when:
+    ASSEMBLYComplete == 'true'
 
     input:    
     file index from transcriptome_index
-    set val(pair_id), file('*{1,2}_good.fq.gz') from goodfiles
+    set pair_id, file(reads) from goodfiles
 
     output:
     file(pair_id) into quant_ch
