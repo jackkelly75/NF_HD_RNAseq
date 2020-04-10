@@ -3,7 +3,6 @@
 params.transcriptome = "$baseDir/data/hsapien.fa.gz"
 params.reads = "$baseDir/data/*_{1,2}.fastq.gz"
 params.outdir = "results"
-ASSEMBLYComplete = 'false'
 
 
 log.info """\
@@ -50,7 +49,6 @@ process trimFilter {
     script:
     """
     trimFilterPE -f ${reads[0]}:${reads[1]}  -l 101 --trimQ ENDSFRAC --trimN ENDS -m 31 -o $pair_id
-    ASSEMBLYComplete = 'true'
     """
 }
 
@@ -58,9 +56,6 @@ process quant {
     
     tag "$pair_id"
     publishDir '2_quant'
-    
-    when:
-    ASSEMBLYComplete == 'true'
 
     input:    
     file index from transcriptome_index
