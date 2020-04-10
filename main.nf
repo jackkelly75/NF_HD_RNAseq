@@ -3,7 +3,7 @@
 params.transcriptome = "$baseDir/data/hsapien.fa.gz"
 params.reads = "$baseDir/data/*_{1,2}.fastq.gz"
 params.outdir = "results"
-
+completeProcess = "false"
 
 log.info """\
  N F - H D - R N A S E Q  P I P E L I N E
@@ -52,10 +52,26 @@ process trimFilter {
     """
 }
 
+
+process temp {
+
+    input:
+    file("temp_results") from goodfiles.collect(
+
+    script:
+    """
+    completeProcess=true
+    """
+}
+
+
 process quant {
     
     tag "$pair_id"
     publishDir '2_quant'
+    
+    when:
+    completeProcess == 'true'
 
     input:    
     file index from transcriptome_index
