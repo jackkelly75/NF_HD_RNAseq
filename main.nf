@@ -45,8 +45,8 @@ process trimFilter {
 
     output:
     set val(pair_id), file('*{1,2}_good.fq.gz') into goodfiles
-    set val(temp), file('*_NNNN.fq.gz') into tempfiles    
-
+    file("*.bin") into fastqbinfiles
+    
     script:
     """
     trimFilterPE -f ${reads[0]}:${reads[1]}  -l 101 --trimQ ENDSFRAC --trimN ENDS -m 31 -o $pair_id
@@ -57,7 +57,7 @@ process trimFilter {
 process temp {
 
     input:
-    file("temp_results") from tempfiles.collect()
+    file("temp_results") from fastqbinfiles.collect()
 
     script:
     """
