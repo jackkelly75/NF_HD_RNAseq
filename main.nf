@@ -60,7 +60,7 @@ process temp {
     file("temp_results") from fastqbinfiles.collect()
     
     output:
-    file 'text' into textfile
+    file '*.txt' into textfile
 
     script:
     """
