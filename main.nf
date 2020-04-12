@@ -64,7 +64,7 @@ process temp {
 
     script:
     """
-    echo $(date +%F-%T) >> Output.txt
+    cat > sample.txt
     """
 }
 
