@@ -58,10 +58,13 @@ process temp {
 
     input:
     file("temp_results") from fastqbinfiles.collect()
+    
+    output:
+    file 'text' into textfile
 
     script:
     """
-    completeProcess=true
+    echo $(date +%F-%T) >> Output.txt
     """
 }
 
@@ -70,11 +73,10 @@ process quant {
     
     tag "$pair_id"
     publishDir '2_quant'
-    
-    when:
-    completeProcess == 'true'
+
 
     input:    
+    file text from textfile
     file index from transcriptome_index
     set pair_id, file(reads) from goodfiles
 
