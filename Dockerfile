@@ -16,7 +16,7 @@ ENV PACKAGES git build-essential libtbb-dev libboost-all-dev liblzma-dev libbz2-
     ca-certificates zlib1g-dev libcurl4-openssl-dev curl unzip autoconf \
     apt-transport-https ca-certificates gnupg software-properties-common \
     libz-dev wget apt-utils \
-    clang pandoc vim libxml2-dev libssl-dev
+    clang vim libxml2-dev libssl-dev
 
 ENV SALMON_VERSION 1.1.0
 
@@ -27,6 +27,15 @@ RUN apt-get update && \
     apt remove -y libcurl4 && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ${PACKAGES} && \
     apt-get clean
+
+
+#install pandoc
+RUN wget https://github.com/jgm/pandoc/releases/download/2.7.3/pandoc-2.7.3-1-amd64.deb
+RUN wget https://github.com/jgm/pandoc/releases/download/2.7.3/pandoc-2.7.3-linux.tar.gz
+RUN dpkg -i pandoc-2.7.3-1-amd64.deb
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends texlive 
+
+
 
 RUN apt install -y default-jre
 RUN apt install -y openjdk-11-jre-headless
