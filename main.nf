@@ -175,7 +175,7 @@ process sort_files {
     save(txi, file = "txi.Rdata")
     colnames(txi[[2]]) <- rownames(sampleTable)
     sampleTable$condition <- relevel(sampleTable$diagnosis, "Neurologically_normal")
-    dds <- DESeqDataSetFromTximport(txi, sampleTable, ~rin + pmi + diagnosis)
+    dds <- DESeqDataSetFromTximport(txi, sampleTable, ~rin + pmi + condition)
     dds <- DESeq(dds)
     png("expression_boxplots.png", width = 1000, height = 500)
     par(mar = c(8,5,2,2))
