@@ -1,9 +1,7 @@
 #!/usr/bin/env nextflow
 
-params.transcriptome = "$baseDir/data/hsapien.fa.gz"
 params.reads = "$baseDir/data/*_{1,2}.fastq.gz"
 params.outdir = "results"
-completeProcess = "false"
 
 log.info """\
  N F - H D - R N A S E Q  P I P E L I N E
@@ -11,8 +9,6 @@ log.info """\
  reads        : ${params.reads}
  outdir       : ${params.outdir}
  """
-
-transcriptome_file = file(params.transcriptome)
 
 
 Channel
@@ -46,7 +42,6 @@ process quant {
 
 
     input:    
-    file index from transcriptome_index
     set pair_id, file(reads) from goodfiles
 
     output:
