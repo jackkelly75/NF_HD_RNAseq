@@ -30,7 +30,6 @@ process trimFilter {
 
     output:
     set val(pair_id), file('*{1,2}_good.fq.gz') into goodfiles
-    file("*.bin") into fastqbinfiles
     
     script:
     """
@@ -47,7 +46,6 @@ process quant {
 
 
     input:    
-    file text from textfile
     file index from transcriptome_index
     set pair_id, file(reads) from goodfiles
 
