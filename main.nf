@@ -20,21 +20,6 @@ Channel
     .ifEmpty { error "Cannot find any reads matching: ${params.reads}" }
     .into { read_pairs_ch; read_pairs2_ch }
 
-process buildIndex {
-    tag "$transcriptome.simpleName"
-
-    input:
-    file transcriptome from transcriptome_file
-
-    output:
-    file 'index' into transcriptome_index
-
-    script:
-    """
-    salmon index -t $transcriptome -i index -k 31
-    """
-}  
-
 process trimFilter {
     
     tag "$trimFilter"
