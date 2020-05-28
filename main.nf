@@ -1,5 +1,6 @@
 #!/usr/bin/env nextflow
 
+params.transcriptome = "$baseDir/data/hsapien.fa.gz"
 params.reads = "$baseDir/data/*_{1,2}.fastq.gz"
 params.outdir = "results"
 
@@ -9,12 +10,29 @@ log.info """\
  reads        : ${params.reads}
  outdir       : ${params.outdir}
  """
-
+transcriptome_file = file(params.transcriptome)
 
 Channel
     .fromFilePairs( params.reads )
     .ifEmpty { error "Cannot find any reads matching: ${params.reads}" }
     .into { read_pairs_ch; read_pairs2_ch }
+
+
+process buildIndex {
+    tag "$transcriptome.simpleName"
+
+    input:
+    file transcriptome from transcriptome_file
+
+    output:
+    file 'index' into transcriptome_index
+
+    script:
+    """
+    salmon index -t $transcriptome -i index -k 31
+    """
+}  
+
 
 process trimFilter {
     
@@ -42,6 +60,7 @@ process quant {
 
 
     input:    
+    file index from transcriptome_index
     set pair_id, file(reads) from goodfiles
 
     output:
@@ -49,5 +68,5 @@ process quant {
 
     script:
     """
-    salmon quant -l A --threads $task.cpus -i /media/j/Home_HardDrive_2/work/data/hsapien_index -1 ${reads[0]} -2 ${reads[1]} -o $pair_id --validateMappings --seqBias --gcBias    """
+    salmon quant -l A --threads $task.cpus -i $index -1 ${reads[0]} -2 ${reads[1]} -o $pair_id --validateMappings --seqBias --gcBias    """
 }
