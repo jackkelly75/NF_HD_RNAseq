@@ -48,8 +48,8 @@ process trimFilter {
     
     script:
     """
-    ln=${reads[0]##*/}
-	   v2=${ln::-10}
+    ln=$(echo ${reads[0]} | sed 's/^.*\(SRR*\)/\1/g')
+    v2=${ln::-10}
     trimFilterPE -f ${reads[0]}:${reads[1]}  -l 101 --trimQ ENDSFRAC --trimN ENDS -m 31 -o $v2
     """
 }
