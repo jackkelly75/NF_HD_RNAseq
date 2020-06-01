@@ -41,14 +41,16 @@ process trimFilter {
     publishDir "1_FastQPuri"
 
     input:
-    set pair_id, file(reads) from read_pairs_ch
+    tuple val(pair_id), path(reads) from read_pairs_ch
 
     output:
     set val(pair_id), file('*{1,2}_good.fq.gz') into goodfiles
     
     script:
     """
-    trimFilterPE -f ${reads[0]}:${reads[1]}  -l 101 --trimQ ENDSFRAC --trimN ENDS -m 31 -o $pair_id
+    ln=${reads[0]##*/}
+	   v2=${ln::-10}
+    trimFilterPE -f ${reads[0]}:${reads[1]}  -l 101 --trimQ ENDSFRAC --trimN ENDS -m 31 -o $v2
     """
 }
 
