@@ -60,7 +60,6 @@ process quant {
 
 
     input:    
-    file text from textfile
     file index from transcriptome_index
     set pair_id, file(reads) from goodfiles
 
