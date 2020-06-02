@@ -35,7 +35,7 @@ process trimFilter {
     script:
     """
     #!/bin/bash
-    for fn in $FILES;
+    for fn in ${FILES};
     do
 	    a=${(echo ${fn} | sed -e 's/_1/_2/')}
 	    ln=${fn##*/}
