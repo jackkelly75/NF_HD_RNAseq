@@ -38,3 +38,5 @@ sudo ./nextflow run jackkelly75/NF_HD_RNAseq --reads '/media/j/Home_HardDrive_1/
 
 
 
+sudo ./nextflow run jackkelly75/NF_HD_RNAseq --reads '/media/j/Home_HardDrive_1/PhD_work/3.HD_work/Brain/BA9/data1/*_{1,2}.fastq.gz' --transcriptome 'data/hsapien.fa.gz' --files '/media/j/Home_HardDrive_1/PhD_work/3.HD_work/Brain/BA9/data1/*_1.fastq.gz'
+
