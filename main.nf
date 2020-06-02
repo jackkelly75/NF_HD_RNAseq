@@ -44,31 +44,11 @@ process trimFilter {
     tuple val(pair_id), path(reads) from read_pairs_ch
 
     output:
-    set val(pair_id), file('*{1,2}_good.fq.gz') into goodfiles
+    file(pair_id) into goodfiles
     
     script:
     """
-    ln=echo ${reads[0]} | sed 's/^.*\(SRR*\)/\1/g'
-    v2=${ln::-10}
-    trimFilterPE -f ${reads[0]}:${reads[1]}  -l 101 --trimQ ENDSFRAC --trimN ENDS -m 31 -o $v2
+    trimFilterPE -f ${reads[0]}:${reads[1]}  -l 101 --trimQ ENDSFRAC --trimN ENDS -m 31 -o $pair_id
     """
 }
 
-
-process quant {
-    
-    tag "$pair_id"
-    publishDir '2_quant'
-
-
-    input:    
-    file index from transcriptome_index
-    set pair_id, file(reads) from goodfiles
-
-    output:
-    file(pair_id) into quant_ch
-
-    script:
-    """
-    salmon quant -l A --threads $task.cpus -i $index -1 ${reads[0]} -2 ${reads[1]} -o $pair_id --validateMappings --seqBias --gcBias    """
-}
