@@ -3,13 +3,14 @@
 params.transcriptome = "$baseDir/data/hsapien.fa.gz"
 params.reads = "$baseDir/data/*_{1,2}.fastq.gz"
 params.outdir = "results"
-FILES = "$baseDir/data/*_1.fastq.gz"
+params.files = "$baseDir/data/*_1.fastq.gz"
 
 log.info """\
  N F - H D - R N A S E Q  P I P E L I N E
  ===================================
  reads        : ${params.reads}
  outdir       : ${params.outdir}
+ files        : ${params.files}	
  """
 
 transcriptome_file = file(params.transcriptome)
@@ -36,8 +37,8 @@ process trimFilter {
     '''
     for fn in !{FILES};
     do
-	    a=$(echo ${fn} | sed -e 's/_1/_2/')
-	    ln=${fn##*/}
+	a=$(echo ${fn} | sed -e 's/_1/_2/')
+	ln=${fn##*/}
     	v2=${ln::-10}
     	trimFilterPE -f $fn:$a -l 101 --trimQ ENDSFRAC --trimN ENDS -m 31 -o ${v2}
     done
