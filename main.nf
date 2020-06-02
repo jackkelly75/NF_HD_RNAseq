@@ -23,7 +23,7 @@ Channel
 Channel
     .from(params.files)
     .ifEmpty { error "Cannot find any reads matching: ${params.files}" }
-    .into { raw_reads_fastqc }
+    .set { raw_reads_fastqc }
             
 
 process trimFilter {
