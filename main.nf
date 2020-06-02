@@ -29,19 +29,12 @@ process trimFilter {
 
     input:
     tuple val(pair_id), path(reads) from read_pairs_ch
-    from files
 
     output:
     set val(pair_id), file('*{1,2}_good.fq.gz') into goodfiles
     
     shell:
     '''
-    for fn in !{files};
-    do
-	a=$(echo ${fn} | sed -e 's/_1/_2/')
-	ln=${fn##*/}
-    	v2=${ln::-10}
-    	trimFilterPE -f $fn:$a -l 101 --trimQ ENDSFRAC --trimN ENDS -m 31 -o ${v2}
-    done
+    trimFilterPE -f !{reads[0]}:!{reads[1]} -l 101 --trimQ ENDSFRAC --trimN ENDS -m 31 -o !{pair_id}
     '''
 }
