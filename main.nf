@@ -19,8 +19,12 @@ Channel
     .fromFilePairs( params.reads )
     .ifEmpty { error "Cannot find any reads matching: ${params.reads}" }
     .into { read_pairs_ch; read_pairs2_ch }
-
-
+    
+Channel
+    .from(params.files)
+    .ifEmpty { error "Cannot find any reads matching: ${params.files}" }
+    .into { raw_reads_fastqc }
+            
 
 process trimFilter {
     
@@ -28,13 +32,16 @@ process trimFilter {
     publishDir "1_FastQPuri"
 
     input:
-    tuple val(pair_id), path(reads) from read_pairs_ch
+    set val(name), file(reads) from raw_reads_fastqc
 
     output:
     set val(pair_id), file('*{1,2}_good.fq.gz') into goodfiles
     
     shell:
     '''
-    trimFilterPE -f !{reads[0]}:!{reads[1]} -l 101 --trimQ ENDSFRAC --trimN ENDS -m 31 -o !{pair_id}
+	   a=$(echo !{name} | sed -e 's/_1/_2/')
+	   ln=${!{name}##*/}
+   	v2=${ln::-10}
+   	trimFilterPE -f !{name}:$a -l 101 --trimQ ENDSFRAC --trimN ENDS -m 31 -o ${v2}
     '''
 }
