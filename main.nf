@@ -53,12 +53,16 @@ process trimFilter {
 }
 
 
+Channel
+    .fromFilePairs( file('*{1,2}_good.fq.gz') from goodfile )
+    .ifEmpty { error "Cannot find any reads matching: ${params.reads}" }
+    .into { read_pairs_ch; read_pairs2_ch }
+    
 
 process quant {
     
     tag "$pair_id"
     publishDir '2_quant'
-
 
     input:    
     file index from transcriptome_index
@@ -69,6 +73,7 @@ process quant {
 
     script:
     """
-    salmon quant -l A --threads $task.cpus -i $index -1 ${reads[0]} -2 ${reads[1]} -o $pair_id --validateMappings --seqBias --gcBias    """
+    salmon quant -l A --threads $task.cpus -i $index -1 ${reads[0]} -2 ${reads[1]} -o $pair_id --validateMappings --seqBias --gcBias
+    """
 }
 
