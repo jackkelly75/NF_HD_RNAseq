@@ -16,7 +16,8 @@ sudo docker run -it jackkelly75/nf_hd_rnaseq
 
 #can also use volume (-v) to run docker and specify files to use
 #before the : specify where on PC the folder you want in the docker is, after it where in the docker it should be placed
-sudo docker run -v /media/mynewdrive/NextFlow/data2:/home/data -it jackkelly75/nf_hd_rnaseq
+sudo docker run -v /media/j/Home_HardDrive_1/PhD_work/3.HD_work/Brain/BA9/data1:/home/data -it jackkelly75/nf_hd_rnaseq
+
 
 #delete all docker images
 #docker system prune -a --volumes
