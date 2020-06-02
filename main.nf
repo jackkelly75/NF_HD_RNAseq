@@ -44,7 +44,7 @@ process trimFilter {
     tuple val(pair_id), path(reads) from read_pairs_ch
 
     output:
-    file(pair_id) into goodfiles
+    file '*gz' into goodfiles
     
     script:
     """
