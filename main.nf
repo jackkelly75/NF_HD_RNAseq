@@ -3,7 +3,7 @@
 params.transcriptome = "$baseDir/data/hsapien.fa.gz"
 params.reads = "$baseDir/data/*_{1,2}.fastq.gz"
 params.outdir = "results"
-
+FILES = "$baseDir/data/*_1.fastq.gz"
 
 log.info """\
  N F - H D - R N A S E Q  P I P E L I N E
@@ -30,10 +30,17 @@ process trimFilter {
     tuple val(pair_id), path(reads) from read_pairs_ch
 
     output:
-    file('*good.fq.gz') into goodfiles
+    set val(pair_id), file('*{1,2}_good.fq.gz') into goodfiles
     
     script:
     """
-    trimFilterPE -f ${reads[0]}:${reads[1]}  -l 101 --trimQ ENDSFRAC --trimN ENDS -m 31 -o $pair_id
+    #!/bin/bash
+    for fn in $FILES;
+    do
+	    a=$(echo ${fn} | sed -e 's/_1/_2/')
+	    ln=${fn##*/}
+	    v2=${ln::-10}
+	    trimFilterPE -f $fn:$a -l 101 --trimQ ENDSFRAC --trimN ENDS -m 25 -o ${v2}
+    done
     """
 }
