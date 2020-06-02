@@ -22,7 +22,7 @@ process trimFilter {
     publishDir "1_FastQPuri"
 
     input:
-    set val(name), file(reads) from raw_reads_fastqc
+    file(reads) from raw_reads_fastqc
 
     output:
     set val(pair_id), file('*{1,2}_good.fq.gz') into goodfiles
