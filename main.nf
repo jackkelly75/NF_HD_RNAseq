@@ -37,10 +37,10 @@ process trimFilter {
     #!/bin/bash
     for fn in $FILES;
     do
-	    a=$(echo ${fn} | sed -e 's/_1/_2/')
+	    a=${(echo ${fn} | sed -e 's/_1/_2/')}
 	    ln=${fn##*/}
 	    v2=${ln::-10}
-	    trimFilterPE -f $fn:$a -l 101 --trimQ ENDSFRAC --trimN ENDS -m 25 -o ${v2}
+	    trimFilterPE -f ${fn}:${a} -l 101 --trimQ ENDSFRAC --trimN ENDS -m 25 -o ${v2}
     done
     """
 }
