@@ -39,9 +39,9 @@ process trimFilter {
     
     shell:
     '''
-	   a=$(echo !{name} | sed -e 's/_1/_2/')
-	   ln=${!{name}##*/}
+	   a=$(echo !{reads} | sed -e 's/_1/_2/')
+	   ln=${!{reads}##*/}
    	v2=${ln::-10}
-   	trimFilterPE -f !{name}:$a -l 101 --trimQ ENDSFRAC --trimN ENDS -m 31 -o ${v2}
+   	trimFilterPE -f !{reads}:$a -l 101 --trimQ ENDSFRAC --trimN ENDS -m 31 -o ${v2}
     '''
 }
