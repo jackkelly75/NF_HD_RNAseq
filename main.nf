@@ -25,7 +25,7 @@ process trimFilter {
     publishDir "1_FastQPuri"
 
     input:
-    file(reads) from read_pairs_ch
+    tuple val(pair_id), path(reads) from read_pairs_ch
 
     output:
     file('*{1,2}_good.fq.gz') into goodfiles
