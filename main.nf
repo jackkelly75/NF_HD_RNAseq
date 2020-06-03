@@ -19,6 +19,22 @@ Channel
     .into { read_pairs_ch; read_pairs2_ch }
 
 
+process buildIndex {
+    tag "$transcriptome.simpleName"
+
+    input:
+    file transcriptome from transcriptome_file
+
+    output:
+    file 'index' into transcriptome_index
+
+    script:
+    """
+    salmon index -t $transcriptome -i index -k 31
+    """
+}  
+
+
 process trimFilter {
     
     tag "$trimFilter"
@@ -34,4 +50,23 @@ process trimFilter {
     '''
     trimFilterPE -f !{reads[0]}:!{reads[1]}  -l 101 --trimQ ENDSFRAC --trimN ENDS -m 31 -o !{reads[0].baseName}
     '''
+}
+
+
+process quant {
+    
+    tag "$pair_id"
+    publishDir '2_quant'
+
+    input:    
+    file index from transcriptome_index
+    set pair_id, file(reads) from goodfiles
+
+    output:
+    file(pair_id) into quant_ch
+
+    script:
+    """
+    salmon quant -l A --threads $task.cpus -i $index -1 ${reads[0]} -2 ${reads[1]} -o $pair_id --validateMappings --seqBias --gcBias
+    """
 }
