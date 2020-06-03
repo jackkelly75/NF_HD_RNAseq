@@ -30,7 +30,7 @@ process trimFilter {
     output:
     file('*{1,2}_good.fq.gz') into goodfiles
     
-    script:
+    shell:
     '''
     trimFilterPE -f !{reads[0]}:!{reads[1]}  -l 101 --trimQ ENDSFRAC --trimN ENDS -m 31 -o !{reads.baseName}
     '''
