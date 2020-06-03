@@ -31,7 +31,7 @@ process trimFilter {
     file('*{1,2}_good.fq.gz') into goodfiles
     
     script:
-    """
-    trimFilterPE -f ${reads[0]}:${reads[1]}  -l 101 --trimQ ENDSFRAC --trimN ENDS -m 31 -o ${reads[0].baseName}
-    """
+    '''
+    trimFilterPE -f !{reads[0]}:!{reads[1]}  -l 101 --trimQ ENDSFRAC --trimN ENDS -m 31 -o !{reads.baseName}
+    '''
 }
