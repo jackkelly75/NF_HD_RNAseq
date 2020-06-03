@@ -32,6 +32,6 @@ process trimFilter {
     
     shell:
     '''
-    trimFilterPE -f !{reads[0]}:!{reads[1]}  -l 101 --trimQ ENDSFRAC --trimN ENDS -m 31 -o !{reads.baseName}
+    trimFilterPE -f !{reads[0]}:!{reads[1]}  -l 101 --trimQ ENDSFRAC --trimN ENDS -m 31 -o !{reads[0].baseName}
     '''
 }
