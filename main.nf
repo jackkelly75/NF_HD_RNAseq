@@ -52,7 +52,6 @@ process trimFilter {
     '''
 }
 
-goodfiles.subscribe { println it }
 process quant {
     
     tag "$pair_id"
