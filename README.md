@@ -102,7 +102,10 @@ with --reads set to where reads are stored on your system, and command run in wo
 
 *buildindex*\
 Uses salmon to build index
-(Need to have the human transcriptome downloaded already from this bash line "curl ftp://ftp.ensembl.org/pub/release-96/fasta/homo_sapiens/cdna/Homo_sapiens.GRCh38.cdna.all.fa.gz -o hsapien.fa.gz")
+(Need to have the human transcriptome downloaded already from this bash line 
+```
+curl ftp://ftp.ensembl.org/pub/release-100/fasta/homo_sapiens/cdna/Homo_sapiens.GRCh38.cdna.all.fa.gz -o hsapien.fa.gz
+```
 Index is created using the human transcriptome downloaded and k-mer length of 31 (largest possible size, optimed for reads over ~75bp).
 
 
