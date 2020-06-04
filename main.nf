@@ -67,6 +67,6 @@ process quant {
 
     script:
     """
-    salmon --no-version-check quant -l A --threads $task.cpus -i $index -1 ${reads[0]} -2 ${reads} -o ${reads[0].baseName} --validateMappings --seqBias --gcBias
+    salmon --no-version-check quant -l A --threads $task.cpus -i $index -1 ${reads[0]} -2 ${reads[1]} -o ${reads[0].baseName} --validateMappings --seqBias --gcBias
     """
 }
