@@ -52,7 +52,7 @@ process trimFilter {
     '''
 }
 
-println(goodfiles)
+goodfiles.subscribe { println it }
 
 process quant {
     
