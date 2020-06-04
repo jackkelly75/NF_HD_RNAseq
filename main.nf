@@ -60,13 +60,13 @@ process quant {
 
     input:    
     file index from transcriptome_index
-    tuple val(pair_id), path(reads) from goodfiles
+    path(reads) from goodfiles
 
     output:
     file(pair_id) into quant_ch
 
     script:
     """
-    salmon quant -l A --threads $task.cpus -i $index -1 ${reads[0]} -2 ${reads} -o $pair_id --validateMappings --seqBias --gcBias
+    salmon quant -l A --threads $task.cpus -i $index -1 ${reads[0]} -2 ${reads} -o ${reads[0].baseName} --validateMappings --seqBias --gcBias
     """
 }
