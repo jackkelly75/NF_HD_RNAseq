@@ -52,6 +52,7 @@ process trimFilter {
     '''
 }
 
+println(goodfiles)
 
 process quant {
     
