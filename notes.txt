@@ -1,28 +1,26 @@
-mkdir nf_hd_rnaseq
-cd nf_hd_rnaseq
-mkdir data
-cd data
-#download the fastq files into a folder named data.
-cd ..
-cd ..
-#should to be in dir that contain nf_hd_rnaseq
-#download docker
-#run to get docker  - 17.14
-sudo docker run -v $(pwd)/nf_hd_rnaseq:/home/nf_hd_rnaseq -it jackkelly75/nf_hd_rnaseq
-#time taken - <4 mins ; size -  3.25GB
-cd nf_hd_rnaseq
+#########
+#   1   #
+#########
+####################################################
+#                                                  #
+#  download the files needed and convert to fastq  #
+#                                                  #
+####################################################
+#in BASH     #
+##############
+#download the SRR_Acc_List.txt from the SRA page for RNA-seq (https://www.ncbi.nlm.nih.gov/Traces/study/?acc=PRJNA271929)
 
-mkdir 1_FastqPuri
-FILES=/home/nf_hd_rnaseq/data/*_1.fastq.gz
-for fn in $FILES;
-do
-	echo "Processing sample $fn"
-	a=$(echo ${fn} | sed -e 's/_1/_2/')
-	ln=${fn##*/}
-	v2=${ln::-10}
-	trimFilterPE -f $fn:$a -l 101 --trimQ ENDSFRAC --trimN ENDS -m 31 -o ./1_FastqPuri/${v2}
-	#-m is minumum read length to keep. 
-done
+sed -i  's/^/fastq-dump --outdir fastq --gzip --skip-technical  --readids --read-filter pass --dumpbase --split-3 --clip /' SRR_Acc_List.txt
+#add "#!/bin/sh" to top of the file as will use as shell script
+#then run this in terminal to make the file readable by shell
+chmod +x SRR_Acc_List.txt
+./SRR_Acc_List.txt
+#this batch downloads the RNA-seq file
+
+
+
+https://www.biostars.org/p/325010/
+export PATH=$HOME/.aspera/connect/bin:$PATH
 
 
 
