@@ -1,8 +1,34 @@
+mkdir nf_hd_rnaseq
+cd nf_hd_rnaseq
+mkdir data
+cd data
+#download the fastq files into a folder named data.
+cd ..
+cd ..
+#should to be in dir that contain nf_hd_rnaseq
+#download docker
+#run to get docker  - 17.14
+sudo docker run -v $(pwd)/nf_hd_rnaseq:/home/nf_hd_rnaseq -it jackkelly75/nf_hd_rnaseq
+#time taken - <4 mins ; size -  3.25GB
+cd nf_hd_rnaseq
+
+mkdir 1_FastqPuri
+FILES=/home/nf_hd_rnaseq/data/*_1.fastq.gz
+for fn in $FILES;
+do
+	echo "Processing sample $fn"
+	a=$(echo ${fn} | sed -e 's/_1/_2/')
+	ln=${fn##*/}
+	v2=${ln::-10}
+	trimFilterPE -f $fn:$a -l 101 --trimQ ENDSFRAC --trimN ENDS -m 31 -o ./1_FastqPuri/${v2}
+	#-m is minumum read length to keep. 
+done
+
+
+
 
 
 sudo docker build -t "xyz:Dockerfile" .
-
-
 #once docker image is created
 #login to docker
 sudo docker login --username=jackkelly75
