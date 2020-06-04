@@ -54,20 +54,3 @@ process trimFilter {
 
 goodfiles.subscribe { println it }
 
-process quant {
-    
-    tag "$pair_id"
-    publishDir '2_quant'
-
-    input:    
-    file index from transcriptome_index
-    set pair_id, file(reads) from goodfiles
-
-    output:
-    file(pair_id) into quant_ch
-
-    script:
-    """
-    salmon quant -l A --threads $task.cpus -i $index -1 ${reads[0]} -2 ${reads[1]} -o $pair_id --validateMappings --seqBias --gcBias
-    """
-}
