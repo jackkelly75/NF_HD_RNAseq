@@ -91,11 +91,14 @@ process sort_files {
     knnOutput <- knnImputation(temp, k = 5)
     sampleTable[,3] <- round(knnOutput[,3], digits = 2)
     sampleTable[,1] <- factor(sampleTable[,1])
-    setwd("$baseDir/2_quant")     
+    
+    setwd("$baseDir/2_quant")  
+    #get list of file names
     x <- list.files()
     for(num in 1:length(x)){
         x[num] <- paste(getwd(), "/", x[num], "/quant.sf" ,sep = "")
     }
+    #import the quant.sf files and edit gene name to be ENSG number. set prints how many files have been fixed
     set = 0
     for(file in x){
         set = set + 1
@@ -134,12 +137,13 @@ process sort_files {
     txi[[2]] <- txi[[2]][rownames(ExprsMAD),]
     txi[[1]] = txi[[1]][rownames(ExprsMAD),]
     txi[[3]] = txi[[3]][rownames(ExprsMAD),]
+    
     setwd("$baseDir")
     save(counts, file = "counts.Rdata")
     save(txi, file = "txi.Rdata")
     colnames(txi[[2]]) <- rownames(sampleTable)
     sampleTable$condition <- relevel(sampleTable$diagnosis, "Neurologically_normal")
-    dds <- DESeqDataSetFromTximport(txi, sampleTable, ~rin + pmi + condition)
+    dds <- DESeqDataSetFromTximport(txi, sampleTable, ~rin + pmi + binned_age + condition)
     dds <- DESeq(dds)
     png("expression_boxplots.png", width = 1000, height = 500)
     par(mar = c(8,5,2,2))
