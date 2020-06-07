@@ -1,7 +1,7 @@
 #!/usr/bin/env nextflow
 
-params.transcriptome = "$baseDir/data/hsapien.fa.gz"
-params.reads = "$baseDir/data/*_{1,2}.fastq.gz"
+params.transcriptome = "$baseDir/hsapien.fa.gz"
+params.reads = "$baseDir/1_FastqPuri/*_{1,2}_good.fq.gz"
 params.outdir = "results"
 
 log.info """\
@@ -39,16 +39,16 @@ process quant {
 
 
     input:    
-    file text from textfile
     file index from transcriptome_index
-    set pair_id, file(reads) from goodfiles
+    tuple val(pair_id), path(reads) from read_pairs_ch
 
     output:
     file(pair_id) into quant_ch
 
     script:
     """
-    salmon quant -l A --threads $task.cpus -i $index -1 ${reads[0]} -2 ${reads[1]} -o $pair_id --validateMappings --seqBias --gcBias    """
+    salmon quant -l A --threads $task.cpus -i $index -1 ${reads[0]} -2 ${reads[1]} -o $pair_id --validateMappings --seqBias --gcBias
+    """
 }
 
 
@@ -62,6 +62,8 @@ process sort_files {
     script:
     """
     #!/usr/bin/Rscript
+    
+    #import libraries
     library(DESeq2)
     library(biomaRt)
     library(EnsDb.Hsapiens.v86)
@@ -69,6 +71,7 @@ process sort_files {
     library(DMwR)
     library(tximport)
     library(stringr)
+    
     setwd("$baseDir/data")
     pData <- read.csv("pData.csv", header=T, row.names = 1)
     sampleTable <- data.frame(pData[,c(1,2,9,10)]) 
@@ -82,7 +85,7 @@ process sort_files {
     
     setwd("$baseDir")    
     set.seed(420)
-    png("elbow_plot1.png", height = 800, width = 1000)
+    png("elbow_plot.png", height = 800, width = 1000)
     temp_na <- na.omit(temp)
     wss <- (nrow(temp_na)-1)*sum(apply(temp_na,2,var))
     for (i in 2:15) wss[i] <- sum(kmeans(temp_na, centers=i)[[4]])
@@ -91,6 +94,8 @@ process sort_files {
     knnOutput <- knnImputation(temp, k = 5)
     sampleTable[,3] <- round(knnOutput[,3], digits = 2)
     sampleTable[,1] <- factor(sampleTable[,1])
+    #bin the ages into 3 age bins
+    sampleTable$binned_age <- cut(sampleTable$age_of_death, breaks=c(0,55,71,200), right = FALSE)
     
     setwd("$baseDir/2_quant")  
     #get list of file names
