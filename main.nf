@@ -54,6 +54,8 @@ process quant {
 
 process sort_files {
     
+    publishDir '3_R'
+    
     input:
     file("results_list") from quant_ch.collect()
  
@@ -72,7 +74,7 @@ process sort_files {
     library(tximport)
     library(stringr)
     
-    setwd("$baseDir/data") 
+    #setwd("$baseDir/data") 
     pData <- read.csv("pData.csv", header=T, row.names = 1)
     sampleTable <- data.frame(pData[,c(1,2,9,10)]) 
     #replace missing pmi data point using KNN
@@ -83,7 +85,7 @@ process sort_files {
         temp[,i] <- as.numeric(temp[,i])
     }
     
-    setwd("$baseDir")    
+    #setwd("$baseDir")    
     set.seed(420)
     png("elbow_plot.png", height = 800, width = 1000)
     temp_na <- na.omit(temp)
@@ -98,7 +100,7 @@ process sort_files {
     sampleTable[,5] <- cut(sampleTable[,2], breaks=c(0,55,71,200), right = FALSE)
     colnames(sampleTable)[5] <- "binned_age"
     
-    setwd("$baseDir/2_quant")  
+    #setwd("$baseDir/2_quant")  
     #get list of file names
     x <- list.files()
     for(num in 1:length(x)){
@@ -144,7 +146,7 @@ process sort_files {
     txi[[1]] = txi[[1]][rownames(ExprsMAD),]
     txi[[3]] = txi[[3]][rownames(ExprsMAD),]
     
-    setwd("$baseDir")
+    #setwd("$baseDir")
     save(counts, file = "counts.Rdata")
     save(txi, file = "txi.Rdata")
     colnames(txi[[2]]) <- rownames(sampleTable)
