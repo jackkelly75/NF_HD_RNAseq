@@ -94,7 +94,8 @@ process sort_files {
     sampleTable[,3] <- round(knnOutput[,3], digits = 2)
     sampleTable[,1] <- factor(sampleTable[,1])
     #bin the ages into 3 age bins
-    sampleTable$binned_age <- cut(sampleTable$age_of_death, breaks=c(0,55,71,200), right = FALSE)
+    sampleTable[,5] <- cut(sampleTable[,2], breaks=c(0,55,71,200), right = FALSE)
+    colnames(sampleTable)[5] <- "binned_age"
     
     setwd("$baseDir/2_quant")  
     #get list of file names
