@@ -81,6 +81,9 @@ done
 
 ```
 
+```
+curl -o pData.csv https://raw.githubusercontent.com/jackkelly75/NF_HD_RNAseq/master/data/pData.csv
+```
 
 
 #### Run NF_HD_RNAseq pipeline
