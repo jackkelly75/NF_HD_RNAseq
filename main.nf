@@ -3,6 +3,7 @@
 params.transcriptome = "$baseDir/hsapien.fa.gz"
 params.reads = "$baseDir/1_FastqPuri/*_{1,2}_good.fq.gz"
 params.outdir = "results"
+params.pdata = "$baseDir/data/pData.csv"
 
 log.info """\
  N F - H D - R N A S E Q  P I P E L I N E
@@ -11,6 +12,7 @@ log.info """\
  outdir       : ${params.outdir}
  """
 transcriptome_file = file(params.transcriptome)
+pdata_file = file(params.pdata)
 
 Channel
     .fromFilePairs( params.reads )
@@ -55,6 +57,7 @@ process sort_files {
     
     input:
     file("results_list") from quant_ch.collect()
+    file pdata from pdata_file
     
     output:
 
@@ -71,8 +74,8 @@ process sort_files {
     library(tximport)
     library(stringr)
     
-    setwd("$baseDir/data")
-    pData <- read.csv("pData.csv", header=T, row.names = 1)
+
+    pData <- read.csv("$pdata", header=T, row.names = 1)
     sampleTable <- data.frame(pData[,c(1,2,9,10)]) 
     #replace missing pmi data point using KNN
     temp <- sampleTable
