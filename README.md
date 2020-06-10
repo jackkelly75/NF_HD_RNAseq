@@ -11,11 +11,16 @@ The RNA-seq data (GEO identifier: GSE64810)
 
 
 ## Analysing data
-\
 
 ### Download data
 
-link to download data
+Create directory named *nf_hd_rnaseq*
+```
+mkdir nf_hd_rnaseq
+```
+Download the fastq files into this folder.
+Paired data was downloaded from https://www.ebi.ac.uk/ena/data/view/PRJNA271929 for this study.
+
 
 ### Data pre-processing
 *FastqPuri*\
@@ -26,20 +31,13 @@ If desired Qreports can be used to create quality reports in HTML. The RNA-seq d
 
 FastqPuri does not work well through NextFlow so is run through docker instead.
 
-### Install docker
+#### Install docker
 This link describes it well:
 https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-18-04
 
-
+####
 
 ```
-mkdir nf_hd_rnaseq
-cd nf_hd_rnaseq
-mkdir data
-cd data
-#download the fastq files into a folder named data.
-cd ..
-cd ..
 #should to be in dir that contains nf_hd_rnaseq
 #install docker and run with nf_hd_rnaseq folder as volume
 sudo docker run -v $(pwd)/nf_hd_rnaseq:/home/nf_hd_rnaseq -it jackkelly75/nf_hd_rnaseq
