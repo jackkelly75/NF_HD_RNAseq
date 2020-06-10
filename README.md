@@ -135,7 +135,7 @@ differential expression using DESeq2 (IHW correction)
 ```
 curl -o pData.csv https://raw.githubusercontent.com/jackkelly75/NF_HD_RNAseq/master/data/pData.csv
 curl -o DESeq.R https://raw.githubusercontent.com/jackkelly75/NF_HD_RNAseq/master/DESeq.R
-
+cd ..
 sudo docker run -v $(pwd)/nf_hd_rnaseq:/home/nf_hd_rnaseq \
                 -it jackkelly75/nf_hd_rnaseq
 cd nf_hd_rnaseq
