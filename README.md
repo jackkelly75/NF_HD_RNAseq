@@ -9,9 +9,6 @@ The RNA-seq data (GEO identifier: GSE64810)
 This link describes it well:
 https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-18-04
 
-#### Install Nexflow
-Install `nextflow` using [their tutorial](https://www.nextflow.io/docs/latest/getstarted.html)
-
 ### Data pre-processing
 Data preproccessed using FastqPuri *trimfilter*\
 \
@@ -81,10 +78,8 @@ done
 
 ```
 
-```
-curl -o pData.csv https://raw.githubusercontent.com/jackkelly75/NF_HD_RNAseq/master/data/pData.csv
-```
-
+#### Install Nexflow
+Install `nextflow` using [their tutorial](https://www.nextflow.io/docs/latest/getstarted.html)
 
 #### Run NF_HD_RNAseq pipeline
 Check if java is installed using `java --version`. \
@@ -134,6 +129,21 @@ to remove the .*N* at end of the annotation so can be annotated to gene symbol
 change ensembl annotation to symbol (any duplicate symbol genes, keep only the one with the highest MAD)
 convert transcript to gene controlling for pmi and rin
 differential expression using DESeq2 (IHW correction)
+
+
+### Download phenodata and rscript files
+```
+curl -o pData.csv https://raw.githubusercontent.com/jackkelly75/NF_HD_RNAseq/master/data/pData.csv
+curl -o DESeq.R https://raw.githubusercontent.com/jackkelly75/NF_HD_RNAseq/master/DESeq.R
+
+sudo docker run -v $(pwd)/nf_hd_rnaseq:/home/nf_hd_rnaseq \
+                -it jackkelly75/nf_hd_rnaseq
+cd nf_hd_rnaseq
+mkdir 3_DESeq
+chmod +x DESeq.R
+./DESeq.R
+```
+
 
 
 
