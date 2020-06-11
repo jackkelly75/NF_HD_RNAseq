@@ -36,7 +36,7 @@ process buildIndex {
 process quant {
     tag "$pair_id"
     cpus 2
-    publishDir '2_quant'
+    publishDir '2_quant', mode: 'copy'
 
     input:    
     file index from transcriptome_index
