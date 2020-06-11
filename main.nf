@@ -34,7 +34,6 @@ process buildIndex {
 }  
 
 process quant {
-    cpus = 2
     tag "$pair_id"
     publishDir '2_quant', mode: 'link'
 
