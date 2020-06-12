@@ -36,7 +36,7 @@ process buildIndex {
 process quant {
     tag "$pair_id"
     cpus 2
-    cache: 'deep'
+    cache 'deep'
     publishDir '2_quant', mode: 'copy', overwrite: false
 
     input:    
