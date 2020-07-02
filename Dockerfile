@@ -92,8 +92,8 @@ RUN curl -k -L https://github.com/jengelmann/FastqPuri/archive/v1.0.6.tar.gz -o 
 
 
 #salmon install
-RUN curl -k -L https://github.com/COMBINE-lab/salmon/releases/download/v1.1.0/salmon-1.1.0_linux_x86_64.tar.gz -o salmon-1.1.0_linux_x86_64.tar.gz && \
-    tar xzvf salmon-1.1.0_linux_x86_64.tar.gz
+RUN curl -k -L https://github.com/COMBINE-lab/salmon/releases/download/v1.2.0/salmon-1.2.0_linux_x86_64.tar.gz -o salmon-1.2.0_linux_x86_64.tar.gz && \
+    tar xzvf salmon-1.2.0_linux_x86_64.tar.gz
 
 ENV PATH /home/salmon-latest_linux_x86_64/bin:${PATH}
 ENV LD_LIBRARY_PATH "/usr/local/lib:${LD_LIBRARY_PATH}"
