@@ -5,9 +5,9 @@ RNA sequencing analysis pipeline for HD data reproducibility
 The RNA-seq data (GEO identifier: GSE64810)
 
 3 steps
-#filtering of samples using FastqPuri
-#quantification using salmon
-#identifying DEGs using DESeq2
+* filtering of samples using FastqPuri
+* quantification using salmon
+* identifying DEGs using DESeq2
 
 
 ## Analysing data
