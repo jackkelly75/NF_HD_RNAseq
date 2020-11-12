@@ -1,12 +1,9 @@
-#########
-#   1   #
-#########
-####################################################
-#                                                  #
-#  download the files needed and convert to fastq  #
-#                                                  #
-####################################################
-#in BASH     #
+#############################################################
+#                                                           #
+#  Various commands used while building and using nextflow  #
+#                                                           #
+#############################################################
+#Download the files needed
 ##############
 #download the SRR_Acc_List.txt from the SRA page for RNA-seq (https://www.ncbi.nlm.nih.gov/Traces/study/?acc=PRJNA271929)
 
@@ -19,13 +16,7 @@ chmod +x SRR_Acc_List.txt
 
 
 
-https://www.biostars.org/p/325010/
-export PATH=$HOME/.aspera/connect/bin:$PATH
-
-
-
-
-
+###Commands used to build docker
 sudo docker build -t "xyz:Dockerfile" .
 #once docker image is created
 #login to docker
@@ -43,27 +34,11 @@ sudo docker run -it jackkelly75/nf_hd_rnaseq
 sudo docker run -v /media/j/Home_HardDrive_1/PhD_work/3.HD_work/Brain/BA9/data1:/home/data -it jackkelly75/nf_hd_rnaseq
 
 
-#delete all docker images
-#docker system prune -a --volumes
+#delete all docker images if needed
+docker system prune -a --volumes
 
 
-./nextflow pull jackkelly75/NF_HD_RNAseq
-
-sudo ./nextflow run jackkelly75/NF_HD_RNAseq --reads 'data2/*_{1,2}.fastq.gz' --transcriptome 'data2/hsapien.fa.gz'
-
-#in temp folder of hard drive 2
-sudo ./nextflow run jackkelly75/NF_HD_RNAseq --reads '/media/j/Home_HardDrive_1/PhD_work/3.HD_work/Brain/BA9/data/*_{1,2}.fastq.gz' --transcriptome 'data/hsapien.fa.gz' -resume
-
-
-
-
-
-
+#Pulling the directory in nextflow
 sudo ./nextflow pull jackkelly75/NF_HD_RNAseq
-sudo ./nextflow run jackkelly75/NF_HD_RNAseq/real.nf --reads '/media/j/Home_HardDrive_1/PhD_work/3.HD_work/Brain/BA9/data1/*_{1,2}.fastq.gz'
-
-
-
-
-
-
+#run the nextflow pipeline while specifying the posistion of the data
+sudo ./nextflow run jackkelly75/NF_HD_RNAseq --reads 'data2/*_{1,2}.fastq.gz' --transcriptome 'data2/hsapien.fa.gz'
